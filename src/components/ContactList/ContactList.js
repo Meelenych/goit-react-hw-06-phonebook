@@ -1,7 +1,12 @@
 import React from "react";
+import { delContact } from "../../redux/contacts/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getFilteredElems } from "../../redux/contacts/selectors";
 
-const ContactList = ({ contacts, delContact }) => {
-  //   console.log(contacts);
+export default function ContactList() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getFilteredElems);
+
   return (
     <>
       <h1>Contacts</h1>
@@ -12,9 +17,7 @@ const ContactList = ({ contacts, delContact }) => {
 
             <button
               id={id}
-              onClick={() => {
-                delContact(id);
-              }}
+              onClick={() => dispatch(delContact(id))}
               type="button"
               className="btn"
             >
@@ -25,6 +28,4 @@ const ContactList = ({ contacts, delContact }) => {
       </ul>
     </>
   );
-};
-
-export default ContactList;
+}

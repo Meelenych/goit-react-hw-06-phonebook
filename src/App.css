@@ -63,7 +63,7 @@ button {
 	border: 2px solid wheat;
 	border-radius: 20px;
 	outline: none;
-	align-items: ;
+	/* align-items: ; */
 }
 
 button:hover,

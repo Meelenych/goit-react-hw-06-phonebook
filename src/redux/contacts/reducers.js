@@ -3,8 +3,6 @@ import { combineReducers } from "redux";
 import { createReducer } from "@reduxjs/toolkit";
 import { addContact, delContact, filterContact } from "./actions";
 
-// import { types } from "node-sass";
-
 const initState = {
   contacts: {
     items: [
@@ -17,7 +15,7 @@ const initState = {
   },
 };
 
-const contactsManage = createReducer(initState, {
+export const contactsManage = createReducer(initState.contacts.items, {
   [addContact]: (state, { payload }) => [...state, payload],
   [delContact]: (state, { payload }) => {
     const contactsPrevState = [...state];
@@ -28,11 +26,11 @@ const contactsManage = createReducer(initState, {
   },
 });
 
-const contactsFilter = createReducer("", {
-  [filterContact]: (state, { payload }) => state === payload,
+export const contactsFilter = createReducer(initState.contacts.filter, {
+  [filterContact]: (_, { payload }) => payload,
 });
 
 export const allReducers = combineReducers({
-  contactsManage,
-  contactsFilter,
+  contacts: contactsManage,
+  filter: contactsFilter,
 });
