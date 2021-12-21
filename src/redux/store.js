@@ -1,17 +1,23 @@
-// import { createStore } from "react-redux";
-import { applyMiddleware, createStore } from "redux";
-import { connect } from "react-redux";
-import { contactsReducer } from "./contacts/reducers";
-import { composeWithDevTools } from "redux-devtools-extension";
+// // import { combineReducers } from "redux";
 
-export const store = createStore(contactsReducer, composeWithDevTools());
+// import logger from "redux-logger";
+// // import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
+// // import { contactsManage, contactsFilter } from "./contacts/reducers";
 
-//createStore(reducer, [preloadedState], [enhancer])
-//reducer - функция, которая возвращает следующее дерево состояния, учитывая текущее дерево состояния и действие для обработки.
-// preloadedState - начальное состояние, к примеру сериализаванное состояние последнего пользовательского сеанса. Это должен быть объект той же формы, что и, как минимум, часть состояния.
-// enhancer - расширяет возможности хранилища при помощи прослоек (middleware).
+import { allReducers } from "./contacts/reducers";
+import { configureStore } from "@reduxjs/toolkit";
+// import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
-//Позволяет получить доступ к состоянию через метод getState()
-//Для отправки дейсвтий есть метод dispatch(action)
-//Изменения производятся с использованием чистых функций - редюсеров (reducers), которые реагируют на действия
-// Регистрирация слушателей делается методом subscribe(listener)
+// // const store = createStore(contactsReducer, composeWithDevTools());
+// // const middleware = [...getDefaultMiddleware(), logger];
+
+export const store = configureStore(
+  {
+    reducer: allReducers,
+    // devtools: process.env.NODE_ENV === "development",
+  }
+  // middleware,
+);
+
+// console.log("store.getState", store.getState());
+// // console.log(combineReducers);

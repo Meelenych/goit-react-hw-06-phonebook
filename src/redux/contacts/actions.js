@@ -1,21 +1,19 @@
-const addContact = (text) => ({
-  type: "ADD_CONTACT",
-  payload: {
-    id: Date.now(),
-    text,
-  },
+import { createAction } from "@reduxjs/toolkit";
+
+export const addContact = createAction("contact/add", (contact) => {
+  return {
+    payload: { ...contact },
+  };
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  addContact: (text) => dispatch(addContact(text)),
+export const delContact = createAction("contact/del", (contact) => {
+  return {
+    payload: { ...contact },
+  };
 });
 
-const delContact = (id) => ({
-  type: "DELETE_CONTACT",
-  payload: {
-    id,
-  },
+export const filterContact = createAction("contact/filter", (value) => {
+  return {
+    payload: value,
+  };
 });
-
-//или так Если аргументы действия совпадают с параметрами объявляемого метода, можно вместо функции передать объект. В таком случае connect пройдет по ключам объекта и обернет их в dispatch
-const mapDispatchToProps2 = { delContact };

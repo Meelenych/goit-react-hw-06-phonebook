@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import { combineReducers } from "redux";
+import { createReducer } from "@reduxjs/toolkit";
+import { addContact, delContact, filterContact } from "./actions";
+
+// import { types } from "node-sass";
 
 const initState = {
   contacts: {
@@ -13,36 +17,22 @@ const initState = {
   },
 };
 
-const contactsFilter = (state = initState, action) => {
-  return state;
-};
-
-const contactsManage = (state = initState, action) => {
-  switch (action.type) {
-    case "ADD_CONTACT":
-      return [...state, action.payload];
-
-    case "DELETE_CONTACT":
-      return state.filter((contact) => contact.id !== action.payload.id);
-
-    default:
-      return state;
-  }
-};
-
-export const contactsReducer = combineReducers({
-  contacts: contactsManage,
-  filter: contactsFilter,
+const contactsManage = createReducer(initState, {
+  [addContact]: (state, { payload }) => [...state, payload],
+  [delContact]: (state, { payload }) => {
+    const contactsPrevState = [...state];
+    const elemToRemove = contactsPrevState.find((item) => item.id === payload);
+    const elemIndex = contactsPrevState.indexOf(elemToRemove);
+    contactsPrevState.splice(elemIndex, 1);
+    return (state = contactsPrevState);
+  },
 });
 
-//Композиция редюсеров
-//import { combineReducers } from 'redux';
-// import notesReducer from './notes';
-// import filterReducer from './filter';
+const contactsFilter = createReducer("", {
+  [filterContact]: (state, { payload }) => state === payload,
+});
 
-// const rootReducer = combineReducers({
-//   notes: notesReducer,
-//   filter: filterReducer,
-// });
-
-// export default rootReducer;
+export const allReducers = combineReducers({
+  contactsManage,
+  contactsFilter,
+});

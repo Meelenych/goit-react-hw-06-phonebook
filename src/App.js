@@ -4,21 +4,15 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import { v4 as uuidv4 } from "uuid";
+import baseContacts from "./components/ContactList/baseContacts";
 import "./App.css";
-
-const baseContacts = [
-  { id: uuidv4(), name: "Rosie Simpson", phoneNumber: "459-12-56" },
-  { id: uuidv4(), name: "Hermione Kline", phoneNumber: "443-89-12" },
-  { id: uuidv4(), name: "Eden Clements", phoneNumber: "645-17-79" },
-  { id: uuidv4(), name: "Annie Copeland", phoneNumber: "227-91-26" },
-];
+// import { connect } from "react-redux";
+// import { addContact, delContact } from "./redux/contacts/actions";
 
 export default function App() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
   const [filter, setFilter] = useState("");
-
   const [contacts, setContacts] = useLocalStorage("contacts", [
     ...baseContacts,
   ]);
@@ -40,7 +34,7 @@ export default function App() {
     }
   };
 
-  const addContact = (e) => {
+  const addContact = () => {
     if (
       contacts.find((contact) => {
         return contact.name === name;
@@ -57,6 +51,12 @@ export default function App() {
     }
   };
 
+  const delContact = (dataId) => {
+    setContacts((prevState) => prevState.filter(({ id }) => id !== dataId));
+  };
+
+  // console.log(delContact);
+
   const getFilteredElems = () => {
     const normalizedFilter = filter.toLowerCase();
     return contacts.filter((elem) =>
@@ -68,10 +68,6 @@ export default function App() {
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
-  };
-
-  const delContact = (dataId) => {
-    setContacts((prevState) => prevState.filter(({ id }) => id !== dataId));
   };
 
   return (
@@ -91,3 +87,17 @@ export default function App() {
     </div>
   );
 }
+
+// const mapStateToProps = (state) => {
+// 	return {
+// 		contactsList: state.contacts,
+// 	};
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+// 	return {
+// 		onAdd: (contact) => dispatch(addContact(contact)),
+// 	};
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
